@@ -28,21 +28,28 @@ async def get_certificate_user(msg: Message, state: FSMContext):
 @dp.message(ArticleStates.article, F.text)
 async def get_certificate_user(msg: Message, state: FSMContext):
     await state.update_data({'article': msg.text})
-    await msg.answer("Maqola soni(issue)ni yuboring(Misol uchun: 1):")
+    await msg.answer("Jurnal soni(issue)ni yuboring(Misol uchun: 1):")
     await state.set_state(ArticleStates.issue)
 
 
 @dp.message(ArticleStates.issue, F.text.regexp(r"^\d+$"))
 async def get_certificate_user(msg: Message, state: FSMContext):
     await state.update_data({'issue': msg.text})
-    await msg.answer("Jurnal jildi yili yuboring(Misol uchun: 2026):")
+    await msg.answer("Jurnal jildi(volume)ni yuboring(Misol uchun: 1):")
+    await state.set_state(ArticleStates.volume)
+
+
+@dp.message(ArticleStates.volume, F.text.regexp(r"^\d+$"))
+async def get_certificate_user(msg: Message, state: FSMContext):
+    await state.update_data({'volume': msg.text})
+    await msg.answer("Jurnal yilini yuboring(Misol uchun: 2025):")
     await state.set_state(ArticleStates.year)
 
 
 @dp.message(ArticleStates.year, F.text.regexp(r"^\d{4}$"))
 async def get_certificate_user(msg: Message, state: FSMContext):
     await state.update_data({'year': msg.text})
-    await msg.answer("Sertifikat berilish sanasini yuboring(Misol uchun: 01.01.2026):")
+    await msg.answer("Sertifikat berilish sanasini yuboring(Misol uchun: 01.01.2025):")
     await state.set_state(ArticleStates.date)
 
 

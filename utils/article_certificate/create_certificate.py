@@ -2,7 +2,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
 
-async def generate_article_certificate(fullname, article, issue, year, date, **kwargs):
+async def generate_article_certificate(fullname, article, issue, volume, year, date, **kwargs):
     # Open the certificate template
     img = Image.open("data/articles/article_certificate.jpg")
     if img.mode != 'RGB':
@@ -97,11 +97,11 @@ async def generate_article_certificate(fullname, article, issue, year, date, **k
     draw.text((title_x, final_title_y), title_text, font=title_font, fill=color)
 
     # Add issue and year
-    issue_x = 1530
+    issue_x = 1520
     issue_y = 1448
     issue_year_x = 1780
     issue_year_y = 1448
-    issue_text = f"({issue})"
+    issue_text = f"{issue}({volume})"
     issue_year = f"{year}"
     draw.text((issue_x, issue_y), issue_text, font=fonts['regular'], fill=color)
     draw.text((issue_year_x, issue_year_y), issue_year, font=fonts['regular'], fill=color)
