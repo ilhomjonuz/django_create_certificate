@@ -14,8 +14,10 @@ from utils import generate_article_certificate
 
 @dp.message(AdminFilter(), F.text == "📄 Maqola uchun sertifikat")
 async def article_certificate(msg: Message, state: FSMContext):
-    await msg.answer("Sertifikat oluvchining ism-familiyasini yuboring:", reply_markup=ReplyKeyboardRemove())
-    await state.set_state(ArticleStates.fullname)
+    await msg.answer(f'Ushbu funksiya <a href="https://t.me/usat_journal_bot">USAT journal bot</a> boti orqali ishlaydi!')
+    return
+    # await msg.answer("Sertifikat oluvchining ism-familiyasini yuboring:", reply_markup=ReplyKeyboardRemove())
+    # await state.set_state(ArticleStates.fullname)
 
 
 @dp.message(ArticleStates.fullname, F.text)

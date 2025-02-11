@@ -120,6 +120,8 @@ async def create_certificate(cert_id: int, fullname: str, course: str) -> dict:
         # Positioning course text
         course_y = completion_y + completion_height + 270
         for idx, line in enumerate(course_text):
+            if len(line) <= 3:
+                line = f"{' ' * 3}{line}{' ' * 3}"
             temp_font = adjust_font_size_for_course_line(line, font_bronson_path, course_font_sizes[idx], max_width)
             course_x, line_y, _, line_height = get_centered_position(line, temp_font, course_y + idx * 250)
             draw.text((course_x, line_y), line, font=temp_font, fill=(106, 21, 255))

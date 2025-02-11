@@ -20,13 +20,13 @@ async def get_voucher(msg: Message, state: FSMContext):
 
 @dp.message(StateFilter("get_voucher_date"), F.text.regexp(r"^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.(\d{4})$"))
 async def get_voucher_date(msg: Message, state: FSMContext):
-    await msg.answer("⏳ Vaucher tayyorlanmoqda...")
-    await msg.answer("Bosh sahifa", reply_markup=admin_menu)
+    await_msg = await msg.answer("⏳ Vaucher tayyorlanmoqda...")
     await state.clear()
     expiration_date = msg.text
     voucher_file = await create_voucher_file(expiration_date)
     photo = FSInputFile(voucher_file)
-    await bot.send_document(chat_id=msg.chat.id, document=photo)
+    await bot.send_document(chat_id=msg.chat.id, document=photo, reply_markup=admin_menu)
+    await await_msg.edit_text("✅ Vaucher muvaffaqiyatli yuborildi.")
 
 
 @dp.message(StateFilter('get_voucher_date'))
@@ -55,15 +55,14 @@ async def get_certificate_user(msg: Message, state: FSMContext):
 COURSES = {
     'frontend': "FRONTEND DEVELOPER",
     'backend': "BACKEND DEVELOPER",
-    'web_design': "GRAPHIC DESIGN",
+    'web_design': "WEB DESIGN",
 }
 
 
 @dp.callback_query(StateFilter("get_group_name"), lambda call: call.data)
 async def get_group_name(call: CallbackQuery, state: FSMContext):
     data = await state.get_data()
-    await call.message.edit_text("⏳ Sertifikat tayyorlanmoqda...")
-    await call.message.answer("Bosh sahifa", reply_markup=admin_menu)
+    await_msg = await call.message.edit_text("⏳ Sertifikat tayyorlanmoqda...")
     await state.clear()
     fullname = data.get('fullname')
     course = COURSES.get(call.data)
@@ -72,9 +71,10 @@ async def get_group_name(call: CallbackQuery, state: FSMContext):
 
     if response['status'] == 'ok':
         await db.update_cert_image(cert_id, response['result'][6:])
-        await call.message.answer_document(FSInputFile(response['result']))
+        await call.message.answer_document(FSInputFile(response['result']), reply_markup=admin_menu)
+        await await_msg.edit_text("✅ Sertifikat muvaffaqiyatli yuborildi.")
     else:
-        await call.message.answer(response['result'])
+        await call.message.answer(response['result'], reply_markup=admin_menu)
 
 
 @dp.message(StateFilter("get_group_name"))
