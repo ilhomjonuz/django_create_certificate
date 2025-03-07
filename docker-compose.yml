@@ -1,0 +1,15 @@
+services:
+  django_bot:
+    build: .
+    container_name: django_academy_cert_bot
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    restart: always
+    networks:
+      - django_network
+
+networks:
+  django_network:
+    driver: bridge

@@ -7,6 +7,7 @@ Ushbu loyiha oddiy telegram botni ishga tushirish uchun yaratilgan. Bot [aiogram
 Ishga tushirishdan oldin quyidagilarni o'rnating:
 - Python 3.10
 - `pip inatall -r requirements.txt`
+- `python manage.py migrate`
 
 ## O'rnatish bo'yicha ko'rsatmalar
 
