@@ -7,6 +7,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-RUN python manage.py migrate
-
-CMD ["python", "app.py"]
+CMD ["sh", "-c", "python manage.py migrate && python app.py"]
